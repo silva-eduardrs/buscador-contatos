@@ -17,6 +17,13 @@
             <button type="button" class="btn btn-primary w-100" [ngClass]="{disabled: !textoPesquisa}" (click)="buscar()">Pesquisar</button>
           </div>
         </div>
+        <div class="row mt-16">
+          <div class="col-md-12 d-flex">
+            <div class="expressoes" *ngFor="let expressao of expressoes">
+              <button type="button" class="btn btn-outline-secondary" (click)="selecionarPalavra(expressao.palavra)">{{expressao.palavra}}</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="map" class="mt-32" style="width:100%;height:400px"></div>
       <table class="table table-striped mt-32" *ngIf="infos.length">

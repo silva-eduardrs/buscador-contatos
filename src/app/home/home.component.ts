@@ -1,10 +1,14 @@
 import {} from 'googlemaps';
+import { forkJoin } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 
+import { Estado } from '../shared/interfaces/estados.interface';
 import { ExpressaoPesquisada } from '../shared/interfaces/expressoes-pesquisadas.interface';
+import { Municipio } from '../shared/interfaces/municipios.interface';
 import { ExpressoesPesquisadasService } from '../shared/services/expressoes-pesquisadas.service';
-import { forkJoin } from 'rxjs';
+import { IbgeService } from '../shared/services/ibge.service';
+import { MunicipiosService } from '../shared/services/municipios.service';
 
 @Component({
   selector: 'app-home',
@@ -15,26 +19,70 @@ export class HomeComponent implements OnInit {
   textoPesquisa: string = '';
   infos: Array<google.maps.places.PlaceResult> = [];
   expressoes: Array<ExpressaoPesquisada> = [];
+  estados: Array<Estado> = [];
+  estadoSelecionado: string = '';
+  municipios: Array<Municipio> = [];
+  municipioSelecionado: Municipio | undefined;
+  municipiosPorFaixa: boolean = false;
 
-  constructor(private expressoesService: ExpressoesPesquisadasService) {}
+  constructor(
+    private expressoesService: ExpressoesPesquisadasService,
+    private ibgeService: IbgeService,
+    private municipiosService: MunicipiosService
+  ) {}
 
   ngOnInit(): void {
     //this.buscarExpressoes();
+    this.buscarUFs();
   }
 
   buscarExpressoes() {
     this.expressoesService
       .recuperarExpressoesPesquisadas()
-      .subscribe((result) => {
-        this.expressoes = result;
+      .subscribe((retorno) => {
+        this.expressoes = retorno;
       });
+  }
+
+  buscarUFs() {
+    this.ibgeService.buscarEstados().subscribe((retorno) => {
+      this.estados = retorno.sort((a, b) => {
+        const valor =
+          a.nome.toUpperCase() < b.nome.toLocaleUpperCase()
+            ? -1
+            : a.nome.toUpperCase() > b.nome.toLocaleUpperCase()
+            ? 1
+            : 0;
+        return valor;
+      });
+    });
+  }
+
+  alteracaoEstado() {
+    this.municipioSelecionado = undefined;
+    this.buscarMunicipio();
+  }
+
+  buscarMunicipio() {
+    if (this.municipiosPorFaixa) {
+      this.municipios = this.municipiosService.listaMunicipiosFaixaPopulacao(
+        this.estadoSelecionado
+      );
+    } else {
+      this.municipios = this.municipiosService.listaMunicipios(
+        this.estadoSelecionado
+      );
+    }
   }
 
   buscar() {
     this.tratarPesquisa();
 
     this.infos = [];
-    const location = new google.maps.LatLng(-27.6427, -48.6695);
+    const location = new google.maps.LatLng(
+      this.municipioSelecionado!.lat,
+      this.municipioSelecionado!.lon
+    );
 
     const map = new google.maps.Map(document.getElementById('map')!, {
       center: location,
@@ -89,8 +137,8 @@ export class HomeComponent implements OnInit {
   }
 
   selecionarPalavra(palavra: string) {
-    if(this.textoPesquisa.length) {
-      this.textoPesquisa += ' ' + palavra
+    if (this.textoPesquisa.length) {
+      this.textoPesquisa += ' ' + palavra;
     } else {
       this.textoPesquisa = palavra;
     }
@@ -100,18 +148,21 @@ export class HomeComponent implements OnInit {
     let req: any = {};
     const expressoesAux = JSON.parse(JSON.stringify(this.expressoes));
     const palavrasPesquisadas = this.textoPesquisa.split(' ');
-    palavrasPesquisadas.forEach(palavra => {
-      if (!this.expressoes.find(e => e.palavra === palavra)) {
-        expressoesAux.push({id: 0, palavra});
+    palavrasPesquisadas.forEach((palavra) => {
+      if (!this.expressoes.find((e) => e.palavra === palavra)) {
+        expressoesAux.push({ id: 0, palavra });
         if (expressoesAux.length > 5) {
           const elemento = expressoesAux.shift();
-          req[elemento?.palavra!] = this.expressoesService.excluirExpressaoPesquisada(elemento?.id!);
+          req[elemento?.palavra!] =
+            this.expressoesService.excluirExpressaoPesquisada(elemento?.id!);
         }
-        req[palavra] = this.expressoesService.gravarExpressaoPesquisada({ palavra });
+        req[palavra] = this.expressoesService.gravarExpressaoPesquisada({
+          palavra,
+        });
       }
     });
-    forkJoin(req).subscribe(retorno => {
+    forkJoin(req).subscribe((retorno) => {
       this.buscarExpressoes();
-    })
+    });
   }
 }

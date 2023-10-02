@@ -10,8 +10,40 @@
       <hr>
       <div class="mt-16">
         <div class="row">
+          <div class="col-md-3">
+            <ng-select
+              [(ngModel)]="estadoSelecionado"
+              notFoundText="Opção não encontrada"
+              (change)="alteracaoEstado()"
+            >
+              <ng-option *ngFor="let estado of estados" [value]="estado.sigla">
+                {{ estado.nome }}
+              </ng-option>
+            </ng-select>
+          </div>
+          <div class="col-md-6">
+            <ng-select
+              [(ngModel)]="municipioSelecionado"
+              notFoundText="Opção não encontrada"
+              [disabled]="!estadoSelecionado"
+            >
+              <ng-option *ngFor="let municipio of municipios" [value]="municipio">
+                {{ municipio.name }}
+              </ng-option>
+            </ng-select>
+          </div>
+          <div class="col-md-3 d-flex align-items-center">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [value]="true" id="faixaMunicipio" [(ngModel)]="municipiosPorFaixa" (change)="buscarMunicipio()">
+              <label class="form-check-label" for="faixaMunicipio">
+                Município por faixa populacional
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-16">
           <div class="col-md-10">
-            <input type="text" class="form-control" id="pesquisa" placeholder="Pesquisar" [(ngModel)]="textoPesquisa">
+            <input type="text" class="form-control" id="pesquisa" placeholder="Pesquisar" [(ngModel)]="textoPesquisa" [disabled]="!municipioSelecionado">
           </div>
           <div class="col-md-2">
             <button type="button" class="btn btn-primary w-100" [ngClass]="{disabled: !textoPesquisa}" (click)="buscar()">Pesquisar</button>

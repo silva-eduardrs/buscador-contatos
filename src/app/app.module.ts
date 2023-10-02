@@ -1,26 +1,29 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HomeComponent } from './home/home.component';
+import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from './shared/shared.module';
+import { AppRoutingModule } from './app-routing.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgbModule,
-    SharedModule,
-    FormsModule
-  ],
   declarations: [AppComponent, HomeComponent],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    BrowserModule,
+    SharedModule,
+    AppRoutingModule,
+    NgbModule,
+    NgSelectModule,
+    FormsModule,
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {}
+}

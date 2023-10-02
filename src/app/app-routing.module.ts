@@ -8,11 +8,11 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent
   },
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: 'not-found' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled'})],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

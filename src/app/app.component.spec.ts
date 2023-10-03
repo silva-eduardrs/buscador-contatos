@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'blank-template'`, () => {
+  it(`should have as title 'buscador-contatos'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('blank-template');
+    expect(app.title).toEqual('buscador-contatos');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('blank-template app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('buscador-contatos app is running!');
   });
 });

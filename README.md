@@ -1,27 +1,28 @@
-# BlankTemplate
+# Buscador de Contatos
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.2.
+Projeto criado para listar contatos de acordo com o município buscado (v0.0.1)
 
-## Development server
+## Ferramentas de busca
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+#### IBGE
 
-## Code scaffolding
+Utilizada API do IBGE (https://servicodados.ibge.gov.br/api/v1) para buscar os estados da Federação
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+#### Registros Censo 2021
 
-## Build
+Os dados da população foram retiradas da tabela disponibilizada em https://github.com/mapaslivres/municipios-br
+E incorporada na aplicação na forma de arquivo JSON utilizando https://csvjson.com/
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+#### Google Maps
 
-## Running unit tests
+Os contatos são recuperados utilizando primeiramente a referência das coordenadas do município selecionado pelo Maps e posteriormente passado via textSearch para o PlacesService
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Tecnologias utilizadas
 
-## Running end-to-end tests
+#### Angular : 15.2.0
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+#### NG Bootstrap : 14.2.0
 
-## Further help
+#### Bootstrap : 5.2.3
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+

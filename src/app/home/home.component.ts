@@ -32,16 +32,30 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //this.buscarExpressoes();
+    this.buscarExpressoes();
     this.buscarUFs();
   }
 
   buscarExpressoes() {
-    this.expressoesService
+    /*this.expressoesService
       .recuperarExpressoesPesquisadas()
       .subscribe((retorno) => {
         this.expressoes = retorno;
-      });
+      });*/
+    this.expressoes = [
+      {
+        id: 1,
+        palavra: 'instalação'
+      },
+      {
+        id: 2,
+        palavra: 'ar'
+      },
+      {
+        id: 3,
+        palavra: 'condicionado'
+      }
+    ]
   }
 
   buscarUFs() {
@@ -76,7 +90,7 @@ export class HomeComponent implements OnInit {
   }
 
   buscar() {
-    this.tratarPesquisa();
+    //this.tratarPesquisa();
 
     this.infos = [];
     const location = new google.maps.LatLng(

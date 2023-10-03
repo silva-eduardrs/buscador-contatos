@@ -1,6 +1,6 @@
 {
-  "name": "blank-template",
-  "version": "0.0.0",
+  "name": "buscador-contatos",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

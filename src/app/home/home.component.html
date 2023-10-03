@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="container-fluid h-94">
+<div class="container-fluid h-90">
   <div class="row h-100p">
     <div class="col-md-3 col-lg-2 h-100p p-0">
       <app-sidebar></app-sidebar>
@@ -34,7 +34,7 @@
           </div>
           <div class="col-md-3 d-flex align-items-center">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" [value]="true" id="faixaMunicipio" [(ngModel)]="municipiosPorFaixa" (change)="buscarMunicipio()">
+              <input class="form-check-input" type="checkbox" [value]="true" id="faixaMunicipio" [(ngModel)]="municipiosPorFaixa" (change)="municipioSelecionado = undefined; buscarMunicipio()">
               <label class="form-check-label" for="faixaMunicipio">
                 Município por faixa populacional
               </label>
@@ -52,7 +52,7 @@
         <div class="row mt-16">
           <div class="col-md-12 d-flex">
             <div class="expressoes" *ngFor="let expressao of expressoes">
-              <button type="button" class="btn btn-outline-secondary" (click)="selecionarPalavra(expressao.palavra)">{{expressao.palavra}}</button>
+              <button type="button" class="btn btn-outline-secondary" [disabled]="!municipioSelecionado" (click)="selecionarPalavra(expressao.palavra)">{{expressao.palavra}}</button>
             </div>
           </div>
         </div>

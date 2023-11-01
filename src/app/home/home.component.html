@@ -61,7 +61,11 @@
       <table class="table table-striped mt-32" *ngIf="infos.length">
         <thead>
           <tr>
-            <th scope="col" [style.width]="'5%'">#</th>
+            <th scope="col" [style.width]="'5%'">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [value]="true" [(ngModel)]="todosSelecionados" (click)="selecionarTodos()">
+              </div>
+            </th>
             <th scope="col" [style.width]="'30%'">Nome</th>
             <th scope="col" [style.width]="'40%'">Endereço</th>
             <th scope="col" [style.width]="'15%'">Telefone</th>
@@ -70,13 +74,17 @@
         </thead>
         <tbody>
           <tr *ngFor="let info of infos; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
+            <th scope="row">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [value]="true" [(ngModel)]="info.selecionado">
+              </div>
+            </th>
             <td>{{ info.name }}</td>
             <td>{{ info.formatted_address }}</td>
             <td>
               <div class="contato">
                 {{ info.formatted_phone_number }}
-                <img src="assets/images/wpp.png" alt="whatsapp logo" class="logo-wpp" (click)="enviarMensagem(info)" *ngIf="info.formatted_phone_number">
+                <img src="assets/images/wpp.png" alt="whatsapp logo" class="logo-wpp" (click)="enviarMensagem(info.formatted_phone_number)" *ngIf="info.formatted_phone_number">
               </div>
             </td>
             <td>
@@ -91,7 +99,15 @@
             </td>
           </tr>
         </tbody>
-        </table>
+      </table>
+      <div class="row justify-content-between mt-16 mb-16" *ngIf="infos.length">
+        <div class="col-md-3">
+          <button type="button" class="btn btn-primary w-100" [ngClass]="{disabled: !contatoSelecionado()}" (click)="exportarContatosSelecionados()">Exportar Contatos Selecionados</button>
+        </div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-primary w-100" [ngClass]="{disabled: !paginacao!.hasNextPage}" (click)="paginacao!.nextPage()">Carregar Mais Resultados</button>
+        </div>
+      </div>
     </main>
   </div>
 </div>

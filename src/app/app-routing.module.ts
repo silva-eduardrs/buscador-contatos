@@ -8,7 +8,7 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent
   },
-  { path: '**', redirectTo: 'not-found' },
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({

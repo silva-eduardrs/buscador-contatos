@@ -17,6 +17,11 @@ export class MunicipiosService {
   listaMunicipiosFaixaPopulacao(uf: string): Array<Municipio> {
     return this.municipios
       .filter((m) => m.uf_code === uf)
-      .filter((m) => m.pop_21 > 120000 && m.pop_21 < 500000);
+      .filter((m) => m.pop_21 >= 80000);
   }
 }
+
+/*
+  269 municipios com população acima de 120K
+  416 municipios com população acima de 80K
+*/

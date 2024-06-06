@@ -142,7 +142,7 @@ export class HomeComponent implements OnInit {
 
     const query = {
       location: location,
-      query: 'instalação ar condicionado', //this.textoPesquisa!,
+      query: this.textoPesquisa,
       fields: ['place_id'],
     };
 
